@@ -1,20 +1,21 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import { useEffect, useState } from "react";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 // Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 const ItemSlides = () => {
+  const axiosPublic = useAxiosPublic();
+
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // Use useEffect to fetch data when the component mounts
     const fetchData = async () => {
       try {
-        const response = await axios.get("/items.json");
+        const response = await axiosPublic.get("/items");
         setItems(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -22,7 +23,7 @@ const ItemSlides = () => {
     };
 
     fetchData();
-  }, []);
+  }, [axiosPublic]);
 
   return (
     <div className="px-4 md:px-10 lg:px-20">
